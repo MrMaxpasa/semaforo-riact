@@ -1,11 +1,198 @@
-/* 
 
-    You can write your own styles here...
-    
-    
-    ...Or you can use the import command to include 
-    other sylesheets into your bunde as well, e.j:
-    
-    import 'relative/path/to/stylesheet.scss';
+:root {
+    --lane-left: #2b2b2b;
+    --lane-right: #383838;
+    --line-center: #f1c40f;
+    --line-edge: #ffffff;
+    --body-color: #2f2f2f;
+    --frame-border: #111;
+    --shadow-color: rgba(0, 0, 0, 0.8);
+    --btn-bg: #444;
+    --btn-hover: #555;
+    --purple: #8e44ad;
+}
 
-*/
+html, body {
+    height: 100%;
+    margin: 0;
+    background: linear-gradient(
+        to right,
+        var(--lane-left) 0%,
+        var(--lane-left) 50%,
+        var(--lane-right) 50%,
+        var(--lane-right) 100%
+    );
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    overflow: hidden;
+}
+
+#root {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+/* Center dividing dashed line vertical */
+#root::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 8px;
+    height: 100%;
+    background-image: repeating-linear-gradient(
+        to bottom,
+        var(--line-center) 0,
+        var(--line-center) 30px,
+        transparent 30px,
+        transparent 60px
+    );
+    transform: translateX(-50%);
+}
+
+/* Road side lines top and bottom edges */
+#root::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 4px;
+    background-color: var(--line-edge);
+}
+#root .road-bottom {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 4px;
+    background-color: var(--line-edge);
+}
+
+.app-container {
+    text-align: center;
+    color: #ddd;
+    z-index: 1;
+}
+
+.semaforo-container {
+    padding: 20px;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 12px;
+}
+
+.semaforo {
+    position: relative;
+    width: 120px;
+    background-color: var(--body-color);
+    padding: 20px 0;
+    border: 8px solid var(--frame-border);
+    border-radius: 20px;
+    box-shadow: 0 8px 20px var(--shadow-color);
+    margin: 0 auto;
+}
+
+.semaforo::before {
+    content: '';
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 16px;
+    height: 20px;
+    background-color: var(--frame-border);
+    border-radius: 4px 4px 0 0;
+}
+
+.luz {
+    width: 60px;
+    height: 60px;
+    margin: 20px auto;
+    background-color: #222;
+    border: 4px solid var(--frame-border);
+    border-radius: 50%;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s;
+    background-clip: padding-box;
+}
+
+.luz::after {
+    content: '';
+    position: absolute;
+    top: 10%;
+    left: 10%;
+    width: 80%;
+    height: 80%;
+    border-radius: 50%;
+    background-color: currentColor;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.luz.red { color: #800; }
+.luz.yellow { color: #885500; }
+.luz.green { color: #006600; }
+.luz.purple { color: var(--purple); }
+
+.luz.on::after {
+    opacity: 1;
+    box-shadow: 0 0 30px currentColor;
+}
+
+.controls {
+    margin-top: 20px;
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+}
+
+/* From Uiverse.io by gharsh11032000 */ 
+.button {
+    cursor: pointer;
+    position: relative;
+    padding: 10px 24px;
+    font-size: 14px;
+    color: rgb(193, 163, 98);
+    border: 2px solid rgb(193, 163, 98);
+    border-radius: 34px;
+    background-color: transparent;
+    font-weight: 600;
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
+    overflow: hidden;
+}
+
+.button::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    width: 50px;
+    height: 50px;
+    border-radius: inherit;
+    scale: 0;
+    z-index: -1;
+    background-color: rgb(193, 163, 98);
+    transition: all 0.6s cubic-bezier(0.23, 1, 0.320, 1);
+}
+
+.button:hover::before {
+    scale: 3;
+}
+
+.button:hover {
+    color: #212121;
+    scale: 1.1;
+    box-shadow: 0 0px 20px rgba(193, 163, 98,0.4);
+}
+
+.button:active {
+    scale: 1;
+}
+
+
+

@@ -1,28 +1,57 @@
-import React from "react";
+import React, { useState, useEffect } from 'react';
 
-//include images into your bundle
-import rigoImage from "../../img/rigo-baby.jpg";
+const TrafficLight = () => {
+    const [color, setColor] = useState('red');
+    const [lights, setLights] = useState(['red', 'yellow', 'green']);
 
-//create your first component
-const Home = () => {
-	return (
-		<div className="text-center">
-            
+    const handleClick = (selectedColor) => {
+        setColor(selectedColor);
+    };
 
-			<h1 className="text-center mt-5">Hello Rigo!</h1>
-			<p>
-				<img src={rigoImage} />
-			</p>
-			<a href="#" className="btn btn-success">
-				If you see this green button... bootstrap is working...
-			</a>
-			<p>
-				Made by{" "}
-				<a href="http://www.4geeksacademy.com">4Geeks Academy</a>, with
-				love!
-			</p>
-		</div>
-	);
+    const toggleColor = () => {
+        const sequence = ['red', 'green', 'yellow', 'purple'];
+        const currentIndex = sequence.indexOf(color);
+        let nextIndex = (currentIndex + 1) % sequence.length;
+        const nextColor = sequence[nextIndex];
+        if (nextColor === 'purple' && !lights.includes('purple')) {
+            setColor('red');
+        } else {
+            setColor(nextColor);
+        }
+    };
+
+    const togglePurple = () => {
+        if (lights.includes('purple')) {
+            setLights((prev) => prev.filter((c) => c !== 'purple'));
+            if (color === 'purple') setColor('red');
+        } else {
+            setLights((prev) => [...prev, 'purple']);
+        }
+    };
+
+    return (
+        <div className="app-container">
+            <div className="semaforo-container">
+                <div className="semaforo">
+                    {lights.map((c) => (
+                        <div
+                            key={c}
+                            className={`luz ${c} ${color === c ? 'on' : ''}`}
+                            onClick={() => handleClick(c)}
+                        />
+                    ))}
+                </div>
+                <div className="controls">
+                    <button class="button" onClick={toggleColor}>
+                        Cambiar color
+                    </button>
+                    <button class="button" onClick={togglePurple}>
+                        {lights.includes('purple') ? 'Quitar púrpura' : 'Añadir púrpura'}
+                    </button>
+                </div>
+            </div>
+        </div>
+    );
 };
 
-export default Home;
+export default TrafficLight;
